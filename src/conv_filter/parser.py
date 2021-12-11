@@ -1,9 +1,8 @@
 import argparse
 
 
-def run():
+def run() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--src')
+    parser.add_argument('-s', '--src', required=True)
     args = parser.parse_args()
-
-    print(f"{args.src=}")
+    return args
