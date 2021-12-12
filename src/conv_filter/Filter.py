@@ -39,7 +39,7 @@ class Filterset(object):
     def __repr__(self) -> str:
         return str(self.filterset)
 
-    @ classmethod
+    @classmethod
     def from_firewall_lines(cls, firewall_lines: List[str]) -> 'Filterset':
         filterset = Filterset()
         for firewall_line in firewall_lines:
@@ -76,13 +76,13 @@ class JunosFilter(object):
         self.config_lines: List[str] = self.load(path)
         self.filterset = self.format(self.config_lines)
 
-    @ staticmethod
+    @staticmethod
     def load(path) -> List[str]:
         with open(path) as f:
             config_lines: List[str] = f.read().splitlines()
         return config_lines
 
-    @ staticmethod
+    @staticmethod
     def format(config_lines) -> Dict[str, Dict[str, List[str]]]:
 
         firewall_lines: List[str] = list(
