@@ -11,11 +11,8 @@ class Term(object):
             condition_value = condition.get('value')
             self.condition[condition_name] = [condition_value]
 
-    # def __repr__(self) -> str:
-        # return f'Term(condition={self.condition},action="{self.action}")'
-
-    def __str__(self) -> str:
-        return f'action: '
+    def __repr__(self) -> str:
+        return str({'action': self.action, 'condition': self.condition})
 
     def merge(self, action: Optional[str], condition: Optional[Dict[str, str]]):
         if action:
@@ -36,8 +33,8 @@ class Filterset(object):
     def __init__(self) -> None:
         self.filterset: Dict[str, Dict[str, Term]] = {}
 
-    def __repr__(self) -> str:
-        return str(self.filterset)
+    def __str__(self) -> str:
+        return self.filterset.__str__()
 
     @classmethod
     def from_firewall_lines(cls, firewall_lines: List[str]) -> 'Filterset':
@@ -76,6 +73,9 @@ class JunosFilter(object):
         self.config_lines: List[str] = self.load(path)
         self.filterset = self.format(self.config_lines)
 
+    def __str__(self) -> str:
+        return str(self.filterset)
+
     @staticmethod
     def load(path) -> List[str]:
         with open(path) as f:
@@ -89,19 +89,4 @@ class JunosFilter(object):
             filter(lambda x: x.startswith('firewall'), config_lines))
 
         filterset = Filterset.from_firewall_lines(firewall_lines)
-        print(filterset.__str__())
         return filterset
-
-    # def to_vDS_filter(self) -> List[str]:
-        # filterset: Dict[str, Dict[str, List[str]]] = self.filterset
-        # for term in filterset.values():
-        # if 'action' in term and term['action'] == 'accept':
-        # if term['action'] == 'accept':
-        # pass
-        # else:
-        # pass
-
-        # if 'destination-' in term:
-        # pass
-        # if 'source-' in term:
-        # pass
